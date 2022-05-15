@@ -1,9 +1,12 @@
 [package]
 name = "hello-rust"
+author = ["weykon@qq.com","635883092@qq.com"]
 version = "0.1.0"
 edition = "2021"
+path = "./src/learnFromBook/basic.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 ferris-says = "0.2"
+rand = "0.8.5"
