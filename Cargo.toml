@@ -1,6 +1,6 @@
 [package]
 name = "hello-rust"
-author = ["weykon@qq.com","635883092@qq.com"]
+author = ["weykon@qq.com","635883092@qq.com","weykon"]
 version = "0.1.0"
 edition = "2021"
 
