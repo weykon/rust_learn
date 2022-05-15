@@ -42,7 +42,6 @@ let出来的变量没有mut是这个值不可变，但是rust还是有常量的�
 
 * 比如： 
 ```rust 
-
     let spaces = "  ";
     let spaces = spaces.len(); // 是没有问题；
     // 但是
@@ -50,3 +49,10 @@ let出来的变量没有mut是这个值不可变，但是rust还是有常量的�
     spaces = spaces.len(); //就不行了
 
 ```
+
+
+# lesson_5 
+数据结构分为两种： 
+- 1.标量类型
+    整数、浮点、布尔、字符
+- 2.复合类型
