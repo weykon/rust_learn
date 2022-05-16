@@ -1,22 +1,26 @@
 fn main() {
-    
-    let x = 5;
-    let y = x;
+    let s = String::from("hello");
 
-    // 这里的5绑定在x，然后又创建了一个x值的拷贝，绑定在y上。结果是有了两个变量x和一个y，值都是5。
-    // 因为这里都是编写代码时写定了是5的整数，所以这两个值5会同时被推入当前的栈中。
+    takes_ownership(s);
 
-    // 而
-    let s1 = String::from("hello");
-    let s2 = s1;
-    // 这里from是由系统动态分配堆，s1保持了一个保存地址的状态，里面包括了指针地址ptr、长度len、还有一个
-    // 还没能解释的“容量”capacity，然后这个ptr当然是指向堆的 'h''e''l''l''o'的堆内存空间。
-    // 当s1绑定给s2，只拷贝了s1栈中的内容，也就是指针地址，len，容量这边的数据，s2并没有复制堆数据。
+    // s    将报错，这里的s已经被废弃
 
-    // 此前讲到，到了变量s1，s2离开自己的作用域时，到了函数结束的地方，也就是这行，
-    // 就会执行drop释放函数，但是这里s1，s2都指向了同一个堆数据，就会尝试去重复释放
-    // 这就是臭名昭著的二次释放
+    let s2 = String::from("hello2");
 
-    let s3 = String::from("hello s3");
-    let s4 = s3.clone(); // 深度拷贝，拷贝堆数据
+    let s3 = takes_and_gives_back(s2);
+
+    touple_test(s3);
+}
+
+fn takes_ownership(some_string: String) {
+    println!("{}", some_string);
+}
+
+fn takes_and_gives_back(a_string: String) -> String {
+    a_string
+}
+
+fn touple_test(a_string:String) -> (String,usize) {
+    let length = a_string.len();
+    (a_string,length)
 }
