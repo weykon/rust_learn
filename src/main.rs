@@ -1,30 +1,16 @@
 fn main() {
     let s = String::from("hello");
 
-    takes_ownership(s);
+    let mut s1 = String::from("hello1");
 
-    // s    将报错，这里的s已经被废弃
+    change(&mut s1);
 
-    let s2 = String::from("hello2");
-
-    let s3 = takes_and_gives_back(s2);
-
-    touple_test(s3);
 }
 
-fn takes_ownership(some_string: String) {
-    println!("{}", some_string);
-}
+// fn change(s: &String) {
+//     s.push_str(",world");   //此处编译错误，因为引用是默认不可变
+// }
 
-fn takes_and_gives_back(a_string: String) -> String {
-    a_string
-}
-
-fn touple_test(a_string:String) -> (String,usize) {
-    let length = a_string.len();
-    (a_string,length)
-}
-
-fn calculate_length(s: &String) -> usize {
-    s.len()
+fn change(s: &mut String) {
+    s.push_str(",world");
 }
