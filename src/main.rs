@@ -1,8 +1,7 @@
-
-fn five() -> i32 {5}  // 里面的5没有加分号
-
 fn main() {
-    let x = five();
+    let condition = true;
 
-    println!("The value of x is {}",x);
+    let number = if condition { 5 } else { 6 };
+
+    println!("The value of number is : {}", number);
 }
