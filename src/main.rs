@@ -1,16 +1,9 @@
 fn main() {
-    let s = String::from("hello");
-
-    let mut s1 = String::from("hello1");
-
-    change(&mut s1);
-
+    
+    let reference_to_nothing = dangle();
 }
 
-// fn change(s: &String) {
-//     s.push_str(",world");   //此处编译错误，因为引用是默认不可变
-// }
-
-fn change(s: &mut String) {
-    s.push_str(",world");
+fn dangle() -> &String {   // 此处报错了，这里已经知道s使用过，已经废弃，所以引用s已经没有内容
+    let s = String::from("hello");
+    &s
 }
