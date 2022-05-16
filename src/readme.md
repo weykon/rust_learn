@@ -150,6 +150,25 @@ loop、while、for
 # lesson_12
 所有权和函数，每次赋值都会转移所有权，如果每次都将持有堆数据的所有权在函数中传来传去有点繁琐，要将结果返回。也可以使用元组同时返回多个值。
 
-# lesson_13
+# lesson_13_1
 ## 引用和借用
 & 引用不持有所有权，在rust中，这种通过引用传递参数给函数的方式叫借用。
+
+# lesson_13_2
+## 可变引用
++ 对于作用域中的特定数据，一次声明一个可变引用
+```rust
+    let mut s = String::from("hello");
+    let r1 = &mut s;
+    let r2 = &mut s;   
+    // 错误
+```
+可以通过{}创建新的作用域范围。
++ 不能在拥有不可变引用的同时创建可变引用
+```rust
+    let mut s = String::from("hello");
+    let r1 = &s;
+    let r2 = &s;   
+    let r3 = &mut s;
+    // 错误
+```
