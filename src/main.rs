@@ -24,3 +24,7 @@ fn touple_test(a_string:String) -> (String,usize) {
     let length = a_string.len();
     (a_string,length)
 }
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
