@@ -1,12 +1,10 @@
 fn main() {
     
-    let a = [10,20,30,40,50];
+    let s = "Hello";
 
-    for element in a.iter() {
-        println!("The result is {}", element);
-    }
+    let mut ss = String::from("hello"); // 当调用from函数，函数回请求自己需要的内存空间。也就是程序员来发起对内存的分配请求。
 
-    for element in (1..4).rev(){
-        println!("{}!",element)
-    }
+    ss.push_str("world!");
+
+    println!("{},{}",s,ss);
 }
