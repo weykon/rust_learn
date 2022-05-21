@@ -1,9 +1,20 @@
 fn main() {
-    
-    let reference_to_nothing = dangle();
+
+    let s1 = String::from("hello world");
+
+    let hello = &s1[0..5]; // 或者 &s1[..5];
+    let world = &s1[6..11]; // 或者 &s1[6..];
 }
 
-fn dangle() -> &String {   // 此处报错了，这里已经知道s使用过，已经废弃，所以引用s已经没有内容
-    let s = String::from("hello");
-    &s
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes(); // 转换成字节数组
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+    s.len()
+
+  
 }
