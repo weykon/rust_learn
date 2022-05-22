@@ -3,7 +3,7 @@ struct User {
     email: String,
 }
 
-enum IpAddKind {
+enum IpAddrKind {
     V4,
     V6,
 }
@@ -14,6 +14,7 @@ enum IpAddr {
 struct Ipv4Addr {
     // ...
 }
+fn route(ip_type: IpAddrKind) {}
 
 enum Message {
     Quit,
@@ -50,7 +51,18 @@ fn main() {
     };
 
     area(&rect1);
-    println!("rect1 is {:?}!", rect1);
+    println!("rect1 is {:?}!,second one: {:?}", rect1, rect1.area());
+
+    let rect2 = Rectangle {
+        width: 2,
+        height: 1,
+    };
+
+    let b1 = rect2.can_hold(&rect1);
+
+    println!("{}", b1);
+
+    route(IpAddrKind::V4);
 }
 
 #[derive(Debug)]
@@ -60,4 +72,20 @@ struct Rectangle {
 }
 fn area(rectangle: &Rectangle) -> u32 {
     rectangle.width * rectangle.height
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        // 选择使用&self签名的原因和之前选择的&Rectangle的原因差不多：既不用获取数据的所有权，也不需要写入数据，而只需要读取数据。
+        self.width * self.height
+    }
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+    fn square(size: u32) -> Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
 }
