@@ -1,20 +1,61 @@
-fn main() {
-
-    let s1 = String::from("hello world");
-
-    let hello = &s1[0..5]; // 或者 &s1[..5];
-    let world = &s1[6..11]; // 或者 &s1[6..];
+struct User {
+    username: String,
+    email: String,
 }
 
-fn first_word(s: &String) -> usize {
-    let bytes = s.as_bytes(); // 转换成字节数组
+enum IpAddKind {
+    V4,
+    V6,
+}
 
-    for (i, &item) in bytes.iter().enumerate() {
-        if item == b' ' {
-            return i;
-        }
+enum IpAddr {
+    V4(Ipv4Addr),
+}
+struct Ipv4Addr {
+    // ...
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 }, // 匿名结构体
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn build_user(email: String, username: String) -> User {
+    User {
+        email: email,
+        username: username,
     }
-    s.len()
+}
+fn build_user_same_prop_shorthadn(email: String, username: String) -> User {
+    User { email, username }
+}
 
-  
+fn main() {
+    let user1 = User {
+        username: String::from("weykon"),
+        email: String::from("weykongkong@gamil.com"),
+    };
+    let user2 = build_user(String::from("abc"), String::from("dac"));
+
+    let user3 = User {
+        username: String::from("ok_man"),
+        ..user1
+    };
+
+    let rect1 = Rectangle {
+        width: 1,
+        height: 2,
+    };
+
+    area(&rect1);
+}
+
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+fn area(rectangle: &Rectangle) -> u32 {
+    rectangle.width * rectangle.height
 }
