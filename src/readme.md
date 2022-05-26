@@ -5,3 +5,20 @@
 
 ## 第二课
 用mod.rs
+
+[学习地址](https://www.sheshbabu.com/posts/rust-module-system/)
+
+## super、self
+```rust
+fn func(){}
+mod my{
+    fn func(){}
+    fn test(){
+        self::func();   // my::func 
+        func():         // my::func
+
+        super::func();  // (outside the `my` mod) func
+    }
+
+}
+```
