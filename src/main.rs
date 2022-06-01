@@ -1,9 +1,13 @@
-mod config;
-mod routes;
-mod models;
-fn main() {
-    config::print_config();
-    routes::health_route::print_health_route();
-    models::user_model::print_user_model();
-    println!("main");
+#[cfg(target_os = "linux")]
+fn are_you_on_linux(){
+    println!("You are!");
+}
+
+#[cfg(not(target_os = "linux"))]
+fn are_you_on_linux(){
+    println!("You Not!");
+}
+
+fn main(){
+
 }
