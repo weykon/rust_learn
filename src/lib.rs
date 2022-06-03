@@ -12,7 +12,6 @@ mod front_of_house {
 mod back_to_house {
     fn fix_incorrect_order() {
         cook_order();
-        super::serve_order();
     }
 
     fn cook_order() {}
@@ -23,7 +22,7 @@ mod back_to_house {
     }
 
     impl Breakfast{
-        pub fn summer(toast: &str) => Breakfast {
+        pub fn summer(toast: &str) -> Breakfast {
             Breakfast {
                 toast: String::from(toast),
                 seasonal_fruit: String::from("peaches"),
@@ -46,7 +45,6 @@ pub fn eat_at_restaurant() {
     Front_of_house::hosting::add_to_waitlist();
 }
 
-use crate::front_of_house;
 use self::front_of_house::hosting;   // Rust开发者们正尝试去掉self前缀，也许在不久可以避免使用它.
 use crate::front_of_house as Front_of_house;
 pub use self::front_of_house::hosting as Hosting;
