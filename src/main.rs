@@ -1,21 +1,22 @@
-
-// 方法中使用泛型
-struct Point<T> {
+struct Point<T, U> {
     x: T,
-    y: T,
+    y: U,
 }
 
-impl<T> Point<T> {
-    // 前面的impl<T>是依然需要提前声明，给后面的 Point<T> 知道，它是泛型，而不是具体的类型T。
-    fn x(&self) -> &T {
-        &self.x
+impl<T, U> Point<T, U> {
+    fn mixup<V, W>(self, other: Point<V, W>) -> Point<T, W> {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
     }
 }
 
-impl Point<f32>{ // 这里就只有当f32的类型时候才匹配到 distance_from_origin impl
-    fn distance_from_origin(&self) -> f32 {
-        (self.x.powi(2) + self.y.powi(2)).sqrt()
-    }
-}
+fn main() {
+    let p1 = Point { x: 1, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c' };
 
-fn main() {}
+    let p3 = p1.mixup(p2);
+
+    println!("p3.x = {} , p3.y = {}", p3.x, p3.y);
+}
