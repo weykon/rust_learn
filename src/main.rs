@@ -1,22 +1,34 @@
-struct Point<T, U> {
-    x: T,
-    y: U,
+pub trait Summary {
+    fn summarize(&self) -> String;
 }
 
-impl<T, U> Point<T, U> {
-    fn mixup<V, W>(self, other: Point<V, W>) -> Point<T, W> {
-        Point {
-            x: self.x,
-            y: other.y,
-        }
+pub struct Post {
+    pub title: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for Post {
+    fn summarize(&self) -> String {
+        format!("文章{},作者是{}", self.title, self.author)
+    }
+}
+
+pub struct Weibo {
+    pub username: String,
+    pub content: String,
+}
+
+impl Summary for Weibo {
+    fn summarize(&self) -> String {
+        format!("{}发表了微博{}", self.username, self.content)
     }
 }
 
 fn main() {
-    let p1 = Point { x: 1, y: 10.4 };
-    let p2 = Point { x: "Hello", y: 'c' };
+     let post= Post{ title: "Rust语言简洁".to_string(), author:"SUnface".to_string(),content: "Rust棒极了！".to_string()};
+     let weibo = Weibo{username: "sunface".to_string(),content:"好像微博没有Tweet好用".to_string()};
 
-    let p3 = p1.mixup(p2);
-
-    println!("p3.x = {} , p3.y = {}", p3.x, p3.y);
+     println!("{}",post.summarize());
+     println!("{}",weibo.summarize());
 }

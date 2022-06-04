@@ -1,52 +1,34 @@
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-        fn seat_at_table() {}
-    }
-    mod serving {
-        fn tabke_order() {}
-        fn serve_order() {}
-        fn take_payment() {}
-    }
+pub trait Summary {
+    fn summarize(&self) -> String;
 }
-mod back_to_house {
-    fn fix_incorrect_order() {
-        cook_order();
-    }
 
-    fn cook_order() {}
+pub struct Post {
+    pub title: String,
+    pub author: String,
+    pub content: String,
+}
 
-    pub struct Breakfast {
-        pub toast: String,
-        seasonal_fruit: String,
-    }
-
-    impl Breakfast{
-        pub fn summer(toast: &str) -> Breakfast {
-            Breakfast {
-                toast: String::from(toast),
-                seasonal_fruit: String::from("peaches"),
-            }
-        }
+impl Summary for Post {
+    fn summarize(&self) -> String {
+        format!("文章{},作者是{}", self.title, self.author)
     }
 }
 
-pub fn eat_at_restaurant() {
-    crate::front_of_house::hosting::add_to_waitlist();
-
-    front_of_house::hosting::add_to_waitlist();
-
-    let mut meal = back_to_house::Breakfast::summer("Rye");   
-    meal.toast = String::from("Wheat");             // 对于有pub的toast中，可以重新修改，但是私有的seasonal_fruit就不能修改了
-
-    front_of_house::hosting::add_to_waitlist();
-    // use 关键字使用
-    hosting::add_to_waitlist();
-    Front_of_house::hosting::add_to_waitlist();
+pub struct Weibo {
+    pub username: String,
+    pub content: String,
 }
 
-use self::front_of_house::hosting;   // Rust开发者们正尝试去掉self前缀，也许在不久可以避免使用它.
-use crate::front_of_house as Front_of_house;
-pub use self::front_of_house::hosting as Hosting;
+impl Summary for Weibo {
+    fn summarize(&self) -> String {
+        format!("{}发表了微博{}", self.username, self.content)
+    }
+}
 
+fn main() {
+     let post= Post{ title: "Rust语言简洁".to_string(), author:"SUnface".to_string(),content: "Rust棒极了！".to_string()};
+     let weibo = Weibo{username: "sunface".to_string(),content:"好像微博没有Tweet好用".to_string()};
 
+     println!("{}",post.summarize());
+     println!("{}",weibo.summarize());
+}
