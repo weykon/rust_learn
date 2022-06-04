@@ -1,14 +1,49 @@
+#![allow(dead_code)]
+
+use std::fmt;
+use std::fmt::Display;
+
+#[derive(Debug, PartialEq)]
+enum FileState {
+    Open,
+    Closed,
+}
+
 #[derive(Debug)]
-struct Point {
-    x: i32,
-    y: i32,
+struct File {
+    name: String,
+    data: Vec<u8>,
+    state: FileState,
+}
+
+impl Display for FileState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            FileState::Open => write!(f, "OPEN"),
+            FileState::Closed => write!(f, "CLOSED"),
+        }
+    }
+}
+
+impl Display for File {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "<{} ({})>", self.name, self.state)
+    }
+}
+
+impl File {
+    fn new(name: &str) -> File {
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+            state: FileState::Closed,
+        }
+    }
 }
 
 fn main() {
-    let p = Point { x: 3, y: 3 };
-    println!("{:?}", p);
+    let f6 = File::new("f6.txt");
+
+    println!("{:?}", f6);   // 默认的 Debug 
+    println!("{}", f6);     // 自定义
 }
-// 这里需要对自定义的类型进行标注，才可实现打印输出的功能。
-
-// 若想让更自定义的输出，可以使用  std::fmt::Display 特征
-
