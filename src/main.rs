@@ -1,32 +1,25 @@
-use std::fmt::Debug;
 use std::fmt::Display;
+struct Pair<T> {
+    x: T,
+    y: T,
+}
 
-pub trait Summary {
-    fn summarize(&self) -> String;
-    fn defalut_impl(&self) -> String {
-        String::from("(Read more...)")
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self { x, y }
     }
 }
 
-pub fn notify(item: &impl Summary) {
-    println!("Breaking news! {}", item.summarize());
-}
-pub fn notifyTwo(item: &impl Summary, item2: &impl Summary) {}
-pub fn notifyPureInGeneric<T: Summary>(item: &T) {}
-pub fn notifyWithGenericForTwoSameT<T: Summary>(item: &T, item2: &T) {}
-
-// 多重约束
-pub fn notifyMutil(item: &(impl Summary + Display)) {}
-pub fn notifyMutilT<T: Summary + Display>(item: &T) {}
-
-// Where
-fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) {}
-// change
-fn some_function_where<T, U>(t: &T, u: &U)
-where
-    T: Display + Clone,
-    U: Clone + Debug,
-{
-}
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+} // 以上这个方法，只有在T的类型满足Display+PartialOrd的类型下才能使用cmp_display的方法，
+  // 这个特性就十分吸引我了，
+  //因为在ts里一直以来我都想拥有这个能自适应下的类型配对的书写过程实现
 
 fn main() {}
