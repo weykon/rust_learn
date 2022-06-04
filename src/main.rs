@@ -1,49 +1,31 @@
-#![allow(dead_code)]
+// 特征对象
 
-use std::fmt;
-use std::fmt::Display;
-
-#[derive(Debug, PartialEq)]
-enum FileState {
-    Open,
-    Closed,
+pub trait Draw {
+    fn draw(&self);
 }
 
-#[derive(Debug)]
-struct File {
-    name: String,
-    data: Vec<u8>,
-    state: FileState,
+pub struct Button {
+    pub width: u32,
+    pub height: u32,
+    pub label: String,
 }
 
-impl Display for FileState {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            FileState::Open => write!(f, "OPEN"),
-            FileState::Closed => write!(f, "CLOSED"),
-        }
-    }
+impl Draw for Button {
+    fn draw(&self) {}
 }
 
-impl Display for File {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "<{} ({})>", self.name, self.state)
-    }
+struct SelectBox {
+    width: u32,
+    height: u32,
+    options: Vec<String>,
 }
 
-impl File {
-    fn new(name: &str) -> File {
-        File {
-            name: String::from(name),
-            data: Vec::new(),
-            state: FileState::Closed,
-        }
-    }
+impl Draw for SelectBox {
+    fn draw(&self) {}
 }
 
-fn main() {
-    let f6 = File::new("f6.txt");
-
-    println!("{:?}", f6);   // 默认的 Debug 
-    println!("{}", f6);     // 自定义
+pub struct Screen {
+    pub components: Vec<Box<dyn Draw>>,
 }
+
+fn main() {}
