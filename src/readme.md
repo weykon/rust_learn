@@ -197,3 +197,6 @@ loop、while、for
 作为函数参数
 然后介绍特征的约束
 &impl Summary 是语法糖，原本它是对trait的泛型书写。
+
+### 元组
+括号，取值 numbers.1
