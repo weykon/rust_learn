@@ -1,12 +1,6 @@
-macro_rules! MyMacroRule {
-    ($name1: expr , $name2:expr) => {
-        if !$name1 {
-            $name2;
-        }
-    };
-}
+#[path = "./切片的理解/mod.rs"]
+mod slice_learn;
 
 fn main() {
-    let (a, b) = (1, 2);
-    MyMacroRule!(a > b, { b - a })
+    slice_learn::slice_learn();
 }
