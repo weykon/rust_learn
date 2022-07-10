@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # lesson0 & lesson_1
 
 ```rust
@@ -236,3 +237,12 @@ loop、while、for
      ..order_template
      };
 ```
+=======
+* The "mod" keyword declares a submodule
+-> mod关键字将其声明一个子模块
+如果 mod my_module;
+那么编译器会去 my_module.rs 或者 my_module/mod.rs 里面找
+
+## 第二课
+用mod.rs
+>>>>>>> 第二课
