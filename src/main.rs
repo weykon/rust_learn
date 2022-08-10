@@ -2,11 +2,12 @@ use std::thread;
 use std::time::Duration;
 mod thread_move;
 mod event_begin_chennel;
-
+mod mutex_control;
 fn main() {
     have_a_look();
     thread_move::main();
     event_begin_chennel::main();
+    mutex_control::main();
 }
 
 fn have_a_look() {
