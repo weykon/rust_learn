@@ -3,11 +3,13 @@ use std::time::Duration;
 mod thread_move;
 mod event_begin_chennel;
 mod mutex_control;
+mod multi_share_mutex;
 fn main() {
     have_a_look();
     thread_move::main();
     event_begin_chennel::main();
     mutex_control::main();
+    multi_share_mutex::main();
 }
 
 fn have_a_look() {
