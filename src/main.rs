@@ -1,46 +1,32 @@
-use std::thread;
-use std::time::Duration;
-mod thread_move;
-mod event_begin_chennel;
-mod mutex_control;
+use std::ops::Deref;
+struct MyCrazyBox<T>(T);
+// 这个结构体一开始有一些疑惑
+// type MyCrazyBox = <T> (x: T) =>  MyCrazyBox(x) => MyCrazyBox
+// 从根本上说，Box<T> 被定义为包含一个元素的元组结构体，
+// 类似 struct Color (i32,i32,i32);
+
+impl<T> Deref for MyCrazyBox<T> {
+    type Target = T;
+    fn deref(&self) -> &Self::Target {
+        &self.0    // 0 是访问元组的第一个元素
+    }
+}
+
+impl<T> MyCrazyBox<T> {
+    fn new(x: T) -> MyCrazyBox<T> {
+        MyCrazyBox(x)
+    }
+}
+
 fn main() {
-    have_a_look();
-    thread_move::main();
-    event_begin_chennel::main();
-    mutex_control::main();
+    let x = 5;
+    let y = MyCrazyBox::new(x);
+    assert_eq!(5, x);
+    // assert_eq!(5, *y);   // 这里 *y 报错，因为不知道如何应对 对于MyCrazyBox 的解引用
+    // 为了启用 * 运算符的解引用功能，需要实现 Deref trait。
+    // Used for immutable dereferencing operations, like *v.
+    // 用于不可变的解引用操作，例如*v.
 }
 
-fn have_a_look() {
-    thread::spawn(|| {
-        for i in 1..3 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..8 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-}
-
-// join
-// 调用join句柄会阻塞当前运行的线程
-fn second_phase() {
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-
-    handle.join().unwrap(); 
-    // 这条命令是要求主程序等待这个线程完成才完成，（允许线程继续跑下来的意思）
-    // 没有这条的话，主程序是不理线程的运行情况，主程序自己跑完，就关闭了，但是
-    // 这个线程如果没跑完的话，就一辈子跑不完。
-}
+// 当输入 *y 时，Rust 事实上在底层运行了如下代码：
+// *(y.deref())
