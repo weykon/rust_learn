@@ -1,4 +1,5 @@
 use std::ops::Deref;
+mod rc_;
 struct MyCrazyBox<T>(T);
 // 这个结构体一开始有一些疑惑
 // type MyCrazyBox = <T> (x: T) =>  MyCrazyBox(x) => MyCrazyBox
@@ -27,6 +28,9 @@ fn main() {
     // 为了启用 * 运算符的解引用功能，需要实现 Deref trait。
     // Used for immutable dereferencing operations, like *v.
     // 用于不可变的解引用操作，例如*v.
+
+
+    rc_::main();
 }
 
 // 当输入 *y 时，Rust 事实上在底层运行了如下代码：
