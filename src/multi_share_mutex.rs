@@ -1,5 +1,6 @@
 use std::sync::Mutex;
 use std::thread;
+use std::rc::Rc;
 
 pub fn main() {
     let counter = Mutex::new(0);
