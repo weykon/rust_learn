@@ -66,3 +66,9 @@ Rc::strong_count
 Rc::weak_count 
 
 调用Rc::strong_count 可以获得引用计数是多少
+
+
+# Cons 
+cons list 是一个来源于 Lisp 编程语言及其方言的数据结构
+cons 函数（“construct function" 的缩写）
+cons 函数的概念涉及到更常见的函数式编程术语；“将 x 与 y 连接” 通常意味着构建一个新的容器而将 x 的元素放在新容器的开头，其后则是容器 y 的元素。
