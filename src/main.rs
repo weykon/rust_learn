@@ -1,6 +1,6 @@
 use std::ops::Add;
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, PartialEq, Clone)]
 struct Point {
     x: i32,
     y: i32,
@@ -8,7 +8,6 @@ struct Point {
 
 impl Add for Point {
     type Output = Point;
-
     fn add(self, other: Point) -> Point {
         Point {
             x: self.x + other.x,
@@ -17,9 +16,6 @@ impl Add for Point {
     }
 }
 
-fn main() {
-    assert_eq!(
-        Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
-        Point { x: 3, y: 3 }
-    );
+fn main(){
+    
 }
