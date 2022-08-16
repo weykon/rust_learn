@@ -1,48 +1,25 @@
-use std::thread;
-use std::time::Duration;
-mod thread_move;
-mod event_begin_chennel;
-mod mutex_control;
-mod multi_share_mutex;
+use std::ops::Add;
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
 fn main() {
-    have_a_look();
-    thread_move::main();
-    event_begin_chennel::main();
-    mutex_control::main();
-    multi_share_mutex::main();
-}
-
-fn have_a_look() {
-    thread::spawn(|| {
-        for i in 1..3 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..8 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-}
-
-// join
-// 调用join句柄会阻塞当前运行的线程
-fn second_phase() {
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-
-    handle.join().unwrap(); 
-    // 这条命令是要求主程序等待这个线程完成才完成，（允许线程继续跑下来的意思）
-    // 没有这条的话，主程序是不理线程的运行情况，主程序自己跑完，就关闭了，但是
-    // 这个线程如果没跑完的话，就一辈子跑不完。
+    assert_eq!(
+        Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
+        Point { x: 3, y: 3 }
+    );
 }
