@@ -6,4 +6,17 @@ fn main() {
     for u in bytes {
         println!("{}", u);
     }
+
+    // zip
+
+    // chiain 
+
+    // fold 
+
+    // scan
+
+    // map
+
+    //skip
+    
 }
