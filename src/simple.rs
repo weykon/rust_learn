@@ -1,3 +1,5 @@
+// https://zhuanlan.zhihu.com/p/145592746 good
+
 pub fn main() {
     let mut array: [i32; 3] = [1, 2, 3];
 
