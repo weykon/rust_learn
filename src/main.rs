@@ -1,4 +1,5 @@
 use std::ops::Deref;
+mod simple;
 mod rc_;
 struct MyCrazyBox<T>(T);
 // 这个结构体一开始有一些疑惑
@@ -31,6 +32,8 @@ fn main() {
 
 
     rc_::main();
+
+    simple::main();
 }
 
 // 当输入 *y 时，Rust 事实上在底层运行了如下代码：
