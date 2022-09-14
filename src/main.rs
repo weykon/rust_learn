@@ -1,6 +1,8 @@
 use std::ops::Deref;
 mod simple;
 mod rc_;
+mod learn_from_borrw_mut;
+mod and_then_RefCell;
 struct MyCrazyBox<T>(T);
 // 这个结构体一开始有一些疑惑
 // type MyCrazyBox = <T> (x: T) =>  MyCrazyBox(x) => MyCrazyBox
@@ -34,6 +36,8 @@ fn main() {
     rc_::main();
 
     simple::main();
+
+    learn_from_borrw_mut::main();
 }
 
 // 当输入 *y 时，Rust 事实上在底层运行了如下代码：
