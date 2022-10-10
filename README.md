@@ -1,7 +1,21 @@
-use [[bin]] declare one bin execution
+# [Below content belong to Tokens concept in Rust](https://doc.rust-lang.org/reference/tokens.html#tokens)
 
-and use command 
-```sh
-cargo run --bin main0
+
+
+
+[Raw string literals](https://doc.rust-lang.org/reference/tokens.html#raw-string-literals)
+What do r / r# do ? 
+
 ```
-to execute specify bin file
+"foo"; r"foo";                     // foo
+"\"foo\""; r#""foo""#;             // "foo"
+
+"foo #\"# bar";
+r##"foo #"# bar"##;                // foo #"# bar
+
+"\x52"; "R"; r"R";                 // R
+"\\x52"; r"\x52";                  // \x52
+```
+
+
+// TODO: b'
