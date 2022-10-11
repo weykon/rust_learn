@@ -16,10 +16,18 @@ where
 
 // example new one 比如在同一个函数中的不同生命周期
 fn myMultiLife() {
-    let a = "1";
+    let a = "112312312";
+    let aa: String = String::from("123123");
     {
+        // 因为这里是基本类型，实质上不clone也是可以的，不过只是演示.
+        // 但是，这些基本类型，实质上他们隐式复制的，直接copy有两份。
         let b = "2";
         compare(b, a);
         compare(a.clone(), b.clone());
     }
+    containString(aa);
+    // containString(aa); 比如这里的String，使用两次，这里就会报错的
+}
+fn containString(string: String) -> String {
+    string
 }
