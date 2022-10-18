@@ -9,3 +9,6 @@ edition = "2021"
 [dependencies]
 ferris-says = "0.2"
 rand = "0.4.0"
+
+hello_macro = { path = "./hello_macro" }
+hello_macro_derive = { path = "./hello_macro_derive"} 

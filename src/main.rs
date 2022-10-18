@@ -1,13 +1,9 @@
-#[cfg(target_os = "linux")]
-fn are_you_on_linux(){
-    println!("You are!");
-}
+use hello_macro::HelloMacro;
+use hello_macro_derive::HelloMacro;
 
-#[cfg(not(target_os = "linux"))]
-fn are_you_on_linux(){
-    println!("You Not!");
-}
+#[derive(HelloMacro)]
+struct Pancakes;
 
-fn main(){
-
+fn main() {
+    Pancakes::hello_macro();
 }
