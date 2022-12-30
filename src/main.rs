@@ -1,21 +1,32 @@
-use std::ops::Add;
-
-#[derive(Debug, Copy, PartialEq, Clone)]
-struct Point {
-    x: i32,
-    y: i32,
+trait Behavior {
+    fn eat(&self) {
+        println!("真香")
+    }
+    fn make_sound(&self);
 }
-
-impl Add for Point {
-    type Output = Point;
-    fn add(self, other: Point) -> Point {
-        Point {
-            x: self.x + other.x,
-            y: self.y + other.y,
-        }
+struct Dog;
+struct Cat;
+impl Behavior for Dog {
+    fn make_sound(&self) {
+        println!("wang!")
+    }
+}
+impl Behavior for Cat {
+    fn make_sound(&self) {
+        println!("miao!")
     }
 }
 
-fn main(){
-    
+// 下面的是语法糖
+fn feed(item: impl Behavior) {
+    item.eat();
+}
+
+fn real_format_feed<T: Behavior>(item: T) {
+    item.eat();
+}
+
+fn main() {
+    let dog = Dog {};
+    feed(dog);
 }
