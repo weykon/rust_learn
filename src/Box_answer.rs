@@ -9,6 +9,8 @@ enum List {
 pub fn main() {
     let list = List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))));
 
+    // 最主要可以对这个槽位进行插入修改等操作？ 
+
     Box_continue();
 }
 
