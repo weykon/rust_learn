@@ -1,8 +1,15 @@
+mod practice;
+mod Box_answer;
 // 这个commit删除了之前的内容，作为一个重新开始的commit来重新认识练习
 fn main() {
     create_pointer_which_everyone_can_modify();
     check_ref();
+
+    practice::拓展一下();
+
+    Box_answer::main();
 }
+
 
 // 构建一个指针指向一处，并可以各方去修改他
 fn create_pointer_which_everyone_can_modify() {
