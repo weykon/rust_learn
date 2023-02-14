@@ -1,32 +1,20 @@
-trait Behavior {
-    fn eat(&self) {
-        println!("真香")
-    }
-    fn make_sound(&self);
-}
-struct Dog;
-struct Cat;
-impl Behavior for Dog {
-    fn make_sound(&self) {
-        println!("wang!")
-    }
-}
-impl Behavior for Cat {
-    fn make_sound(&self) {
-        println!("miao!")
-    }
-}
+struct Bar;
 
-// 下面的是语法糖
-fn feed(item: impl Behavior) {
-    item.eat();
+trait Foo1 {
+    fn foo(&self) {}
 }
-
-fn real_format_feed<T: Behavior>(item: T) {
-    item.eat();
+trait Foo2 {
+    fn foo(&self) {}
 }
+impl Foo1 for Bar {}
+impl Foo2 for Bar {}
 
 fn main() {
-    let dog = Dog {};
-    feed(dog);
+    let a = Bar;
+    a.foo()
 }
+
+// help: disambiguate the associated function for candidate #1
+//    |
+// 16 |     Foo1::foo(&a)
+//    |
