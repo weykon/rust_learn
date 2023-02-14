@@ -1,115 +1,41 @@
-mod practice;
-mod Box_answer;
-mod ref_linklist;
-// 这个commit删除了之前的内容，作为一个重新开始的commit来重新认识练习
+// 对于引用的命题，还有
+// Option<&T>: 这是一种经典的技巧，可以通过使用Option<&T>来处理引用可能不存在的问题。但是这个方法对内存管理的需求是非常强烈的，不太容易使用。
+// Rc<T>: 这是一个 Rust 标准库中的类型，可以实现引用计数，从而实现在多个地方共享同一个值。
+// Arc<T>: 这也是一个 Rust 标准库中的类型，与Rc<T>类似，可以实现引用计数，但是它是线程安全的，可以在多个线程中共享
+
+// 为什么引用计数
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+
 fn main() {
-    create_pointer_which_everyone_can_modify();
-    check_ref();
+    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+    let b = Cons(3, Box::new(a));
+    // let c = Cons(4, Box::new(a));    // 此处(a)这里报错，
 
-    practice::拓展一下();
+    // 首先，将a放入了Box，它不是说把引用放进去，是整个a放进去了，所以后续去使用就已经被b拿去了所有权
+    // 意思是说，在Box::new的处理中，a的情况是未知的，所以不能在外部就去调用。
+    // 那么这个时候就使用引用，也就是说可以改变 Cons 的定义来存放一个引用，不过接着必须指定生命周期参数。
 
-    Box_answer::main();
+    // 当创建 b 时，不同于获取 a 的所有权，这里会克隆 a 所包含的 Rc<List>，
+    // 这会将引用计数从 1 增加到 2 并允许 a 和 b 共享 Rc<List> 中数据的所有权。
+    // 创建 c 时也会克隆 a，这会将引用计数从 2 增加为 3。
+    // 每次调用 Rc::clone，Rc<List> 中数据的引用计数都会增加，直到有零个引用之前其数据都不会被清理。
 }
 
-
-// 构建一个指针指向一处，并可以各方去修改他
-fn create_pointer_which_everyone_can_modify() {
-    let pos = 8;
-
-    let mut pointer = Box::new(pos);
-
-    // 在这里使用的时候
-    *pointer += 1;
-
-    println!("pointer: {}", pointer);
-
-    // 将这个指针用到很多其他的地方
-    // let mut pointer = use_pointer_modify_to_one(pointer);
-    // println!("pointer: {}", pointer);
-    // let mut pointer = use_pointer_modify_to_two(pointer);
-    // println!("pointer: {}", pointer);
-
-    // 使用权的问题让我很困惑去按照自己的习惯去写。
-    // 这里有一个将这个指针的引用的使用
-    let pointer_ref = &mut pointer;
-
-    use_ref_from_pointer(pointer_ref);
-    use_ref_from_pointer_0(pointer_ref);
-    println!("pointer: {}", pointer);
+// 我觉得这个命题很大程度地重点是，使用 Rc<T> 允许一个值有多个所有者，引用计数则确保只要任何所有者依然存在其值也保持有效。
+enum Rc_List {
+    Cons(i32, Rc<Rc_List>),
+    Nil,
 }
+use std::rc::Rc;
+fn use_Rc() {
+    let a = Rc::new(Rc_List::Cons(1, Rc::new(Rc_List::Nil)));
+    let b = Rc_List::Cons(3, Rc::clone(&a));
+    let c = Rc_List::Cons(4, Rc::clone(&a));
 
-fn use_pointer_modify_to_one(mut pointer: Box<i32>) -> Box<i32> {
-    *pointer += 1;
-    pointer
-}
-
-fn use_pointer_modify_to_two(mut pointer: Box<i32>) -> Box<i32> {
-    *pointer += 2;
-    pointer
-}
-
-fn use_ref_from_pointer(pointer_ref: &mut Box<i32>) {
-    **pointer_ref += 1;
-}
-
-fn use_ref_from_pointer_0(pointer_ref: &mut Box<i32>) {
-    **pointer_ref += 1;
-}
-
-// Box 是 Rust 中的一种常见智能指针类型，它用于管理在堆上分配的内存。
-// 1. 动态内存分配： Box 可以在运行时动态分配内存，这使得您可以在需要时创建新的对象。
-// 2. 简化内存管理： Box 简化了内存管理，因为它将资源分配和释放自动封装在一个类型中，无需显式地清理内存。
-// 3. 实现继承： Box 可以被用来实现继承，因为它允许您将父对象的引用存储在子对象中。
-// 4. 提高可移植性： Box 使用了独立于平台的内存分配，因此可以在不同的操作系统和体系结构上使用相同的代码。
-
-// 例子代码from gpt
-use std::ops::Deref;
-
-fn main_from_gpt() {
-    let b = Box::new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    println!("b[0]: {}", b[0]);
-
-    // 使用 `deref` 解引用
-    let deref_b = b.deref();
-    println!("deref_b[0]: {}", deref_b[0]);
-} // 这跟let b = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10]有什么不同
-
-// When you have a type whose size can’t be known at compile time and you want to use a value of that type in a context that requires an exact size
-// 当你有一个在编译时无法知道其大小的类型并且你想在需要精确大小的上下文中使用该类型的值时
-// When you have a large amount of data and you want to transfer ownership but ensure the data won’t be copied when you do so
-// 当您拥有大量数据并且想要转移所有权但要确保在您这样做时数据不会被复制
-// When you want to own a value and you care only that it’s a type that implements a particular trait rather than being of a specific type
-// 当你想拥有一个值并且你只关心它是一个实现特定特征的类型而不是特定类型时
-
-// 那么我应该常常用到第二点的应用，在处理所有权的时候，不用使用clone来完成，而是确保原来那个地方的引用
-fn check_ref() {
-    let b = 3;
-
-    println!("what &b : {}", &b); // 这里 b 和 &b 都是3 ，那么这里有无&有什么不同，可能是println的解析容差了。
-
-    // 不过好像是在传参上的不同
-
-    translate_ref(&b);
-    translate_ref(&b);
-    translate_ref(&b);
-    // 这里可以多次使用了，我等下试试mut去改变看看，我申请多一个c.
-
-    let mut c = 4;
-    mut_c(&mut c);
-    mut_c(&mut c);
-    mut_c(&mut c);
-    println!("look look c : {} ", c);
-    // 通过传入引用，加数改变自己都没问题。所以在Box的使用中并不是我想的那个场景。
-}
-
-fn translate_ref(number_ref: &i32) {
-    println!("translate_ref: {}", number_ref);
-    // 试试拿去用
-    let mut here_num = 1;
-    println!("result: {}", here_num + number_ref);
-    // 没问题
-}
-
-fn mut_c(c_ref: &mut i32) {
-    *c_ref += 1;
+    // 用a的引用了，在b、c的使用当中相当动态了
 }
