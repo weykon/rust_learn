@@ -1,24 +1,17 @@
-use std::net;
+struct SomeType;
 
-struct UDP {
-    socket: net::UdpSocket,
+trait 形式中的行为<'周期, T> {
+    fn 放屁(arg: T);
+
+    fn 带周期放屁(arg: &'周期 T);
+
+    fn 带周期放屁下的固定u32类型(arg: &'周期 u32);
 }
 
-trait Unit {
-    type NewBackType;
-    fn new() -> Self::NewBackType;
+impl<'星期一> 形式中的行为<'星期一,u8> for SomeType { 
+    fn 放屁(arg: u8){}
+
+    fn 带周期放屁(arg: &'星期一 u8){}
+
+    fn 带周期放屁下的固定u32类型(arg: &'星期一 u32){}
 }
-
-impl Unit for UDP {
-    type NewBackType = Box<Option<net::UdpSocket>>;
-
-    // 在这里我们制定对于Tcp在Unit的时候的new函数, 一般是产出 -> UDP 就好了，不过我产出了UdpSocket
-    fn new() -> Self::NewBackType {
-        let socket = net::UdpSocket::bind("127.0.0.1:12345").ok();
-        Box::new(socket)
-    }
-}
-// 这个NewBackType 指定了到Self的时候，具体到哪个类型再去使用。
-
-
-fn main() {}
