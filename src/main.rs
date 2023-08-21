@@ -46,6 +46,22 @@ impl<'a> ViewData<'a> for ClothData {
         &self.data
     }
 }
+impl ViewData for PropertyData { 
+    type UnknowTypeWillImplThenKnow  = &'static Vec<i32>;
+    fn print (&self) -> Self::UnknowTypeWillImplThenKnow {
+        &self.data
+    }
+}
+fn main() {
+    let cloth_data = ClothData { data: vec![1, 2, 3, 4, 5] };
+    let property_data = PropertyData { data: vec![10, 20, 30, 40, 50] };
+
+    let data_vec: Vec<&dyn ViewData> = vec![&cloth_data, &property_data];
+
+    for data in data_vec {
+        data.print();
+    }
+}
 // 这里为了单纯写不同数据的不同View的时候，
 // 遇到了两个问题： 
 // 1. 一个是对数据，对数据的直接获取复制还是引用的问题，
