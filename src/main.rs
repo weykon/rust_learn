@@ -36,3 +36,15 @@ fn bound( arr: Vec<i32>) -> Result<i32, Box<dyn Error>> {
     // 那么在于是否None的问题中，我们的方向一方面是确实不报错，还确保他拿不到值的时候是None的情况。
     Ok(*result)
 }
+
+// 接下来我来看一下对应的Option下能在结果取回的时候有哪些操作。
+fn check_then (index: usize) { 
+    let arr= vec![10,1,1,1];
+
+    // 所有关于Option下的结果处理都能在这里找到
+    // https://doc.rust-lang.org/std/option/enum.Option.html
+    arr.get(index).unwrap_or(&2); // 这个是如果没有，就原来类型赋予一个新值。
+    arr.get(index).unwrap_or_else(|| &2); // 如果没有，给一个函数的返回值。
+    Some(2).unwrap_or_default(); // 如果没有，给一个默认值。
+    
+}
