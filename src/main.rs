@@ -1,3 +1,4 @@
+mod course;
 pub fn main() {
     let mut name = format!( "add");
 
@@ -10,6 +11,8 @@ pub fn main() {
     update(r);
 
     println!("{}", name);
+
+    course::main();
 }
 
 fn update(name: &mut String) {
