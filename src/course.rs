@@ -1,3 +1,5 @@
+use std::vec;
+
 struct Test {
     a: u32,
     b: u32,
@@ -28,7 +30,6 @@ fn borrow_vec() {
     //     // }
     //     *i += 1;
     // }
-    
 }
 
 fn another() {
@@ -48,13 +49,12 @@ fn change(some_string: &mut String) {
 // NLL - Non-Lexical Lifetimes(NLL)
 // 专门用于找到某个引用在作用域(})结束前就不再被使用的代码位置。
 
-
 // # 多个可变引用
-fn multi_mutable_reference () { 
+fn multi_mutable_reference() {
     let mut a = String::from("hello");
     let b = &mut a;
     let c = &mut a;
-    // println!("{}, {}", b, c); 
+    // println!("{}, {}", b, c);
     // 上面这条打印如果去掉注释，在c的那行的 &mut a 就会报错
     // 大概是说println使用了a的引用，而使用了的话，也就是
     // 这个作用域中，即被b借用了，所以c就不能再借用了
@@ -63,9 +63,22 @@ fn multi_mutable_reference () {
 }
 
 // # 可变引用和不可变引用不能同时存在
-fn same_time_at_mutable_ref_and_unmutable_ref (){
+fn same_time_at_mutable_ref_and_unmutable_ref() {
     let mut a = String::from("hello");
     let b = &a;
     let c = &mut a;
     // println!("{}, {}", b, c);
+}
+
+fn while_iter_done() {
+    let vec = vec![1, 2, 3];
+    let mut iter_vec = vec.iter().enumerate();
+    // 做算法题目的时候常常有需要while直到iter结束，那么可以这样写
+    while let Some((i, &value)) = iter_vec.next() {
+        println!("{}: {}", i, value);
+    }
+
+    // 比如上面的 iter() . enumerate() 如果我延迟去放进 while 那里
+    // 意思就会变了while的下一次再去计算一遍 vec.iter().enumerate()
+    // 所以一定要记得把操作前置
 }
