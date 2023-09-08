@@ -9,3 +9,5 @@ edition = "2021"
 [dependencies]
 ferris-says = "0.2"
 rand = "0.4.0"
+colored = "2.0.4"
+num_cpus = "1.0"
